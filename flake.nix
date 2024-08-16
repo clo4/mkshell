@@ -1,13 +1,12 @@
 {
   outputs = {
-    nixpkgs,
     flake-utils,
     self,
   }: {
-    lib.mkShell = shellFn:
+    mkShell = nixpkgs: fn:
       flake-utils.lib.eachDefaultSystem (system: let
         pkgs = nixpkgs.legacyPackages.${system};
-        shell = shellFn pkgs;
+        shell = fn pkgs;
       in {
         devShells.default = pkgs.mkShell shell;
       });
